@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Development Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .timer {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .quiz-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .quiz-button:hover {
+            background-color: #45a049;
+        }
+        .answer {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .correct {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .incorrect {
+            background-color: #f44336;
+            color: white;
+        }
+        .question input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Web Development Quiz</h1>
+        <div class="timer" id="timer">Time Remaining: <span id="time">15:00</span></div>
+        <form id="quizForm">
+            <div class="question">
+                <label for="q1">1. What does HTML stand for?</label><br>
+                <input type="radio" name="q1" value="correct" id="q1a"> HyperText Markup Language<br>
+                <input type="radio" name="q1" value="incorrect" id="q1b"> Hyper Transfer Markup Language<br>
+                <input type="radio" name="q1" value="incorrect" id="q1c"> Hyper Text Machine Language<br>
+            </div>
+            <div class="question">
+                <label for="q2">2. What does CSS stand for?</label><br>
+                <input type="radio" name="q2" value="incorrect" id="q2a"> Creative Style Sheets<br>
+                <input type="radio" name="q2" value="correct" id="q2b"> Cascading Style Sheets<br>
+                <input type="radio" name="q2" value="incorrect" id="q2c"> Computer Style Sheets<br>
+            </div>
+            <div class="question">
+                <label for="q3">3. What is the correct HTML element for inserting a line break?</label><br>
+                <input type="radio" name="q3" value="incorrect" id="q3a"> <code>&lt;br&gt;</code><br>
+                <input type="radio" name="q3" value="correct" id="q3b"> <code>&lt;break&gt;</code><br>
+                <input type="radio" name="q3" value="incorrect" id="q3c"> <code>&lt;lb&gt;</code><br>
+            </div>
+            <button type="button" class="quiz-button" onclick="checkAnswers()">Submit Quiz</button>
+        </form>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 900; // 15 minutes in seconds
+        const timerDisplay = document.getElementById('time');
+        
+        const countdown = setInterval(function() {
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                alert('Time is up!');
+                checkAnswers();
+            } else {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                timeLeft--;
+            }
+        }, 1000);
+
+        // Check answers
+        function checkAnswers() {
+            const formElements = document.getElementById('quizForm').elements;
+            for (let i = 0; i < formElements.length; i++) {
+                if (formElements[i].type === 'radio' && formElements[i].checked) {
+                    if (formElements[i].value === 'correct') {
+                        formElements[i].parentNode.classList.add('correct');
+                        formElements[i].parentNode.classList.remove('incorrect');
+                    } else {
+                        formElements[i].parentNode.classList.add('incorrect');
+                        formElements[i].parentNode.classList.remove('correct');
+                    }
+                }
+            }
+            // Disable form inputs after submission
+            const allInputs = document.querySelectorAll('input');
+            allInputs.forEach(input => input.disabled = true);
+        }
+    </script>
+</body>
+</html>
